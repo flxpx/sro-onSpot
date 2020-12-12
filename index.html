@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title></title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet"> 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin:20px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 15px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 15px;
+        }
+
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        span {
+            font-weight: 800;
+        }
+
+        .container {
+            background-color: lightgrey;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        input {
+            color: grey;
+            font-size: 15px;
+            margin-bottom: 5px;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        input:focus {
+            color: black;
+        }
+
+        .green {
+            background-color: lightgreen;
+        }
+
+        .yellow {
+            background-color: yellow;
+        }
+
+        button {
+            margin-right: 10px;
+            padding: 3px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <h1>SRO On Spot Calculator</h1>
+    
+    
+    <div class="container">
+        <h3>XP/SP Gain per Mob and EXP needed for Level Up</h3>
+        <h4>XP/Mob</h4>
+        <input type="number" id="mobXp1" placeholder="XP from Mob1">
+        <input type="number" id="mobXp2" placeholder="XP from Mob2">
+        <br><span class="mobXp"></span> avg XP per Mob
+        
+        <h4>SP/Mob</h4>
+        <input type="number" id="mobSp1" placeholder="SP from Mob1">
+        <input type="number" id="mobSp2" placeholder="SP from Mob2">
+        <br><span class="mobSp"></span> avg SP per Mob
+        
+        <h4>Level up</h4>
+        <input type="number" id="levelUpExp" placeholder="EXP needed for Level Up">
+        <input type="number" id="currentExp" placeholder="Current %">
+        <br><span class="lvlUpKills"></span> Kills needed for Level Up - you'll gain another <span class="spGain"></span> SP
+    </div>
+    
+    <div class="container">
+        <h3>Data over Time</h3>
+        <h4>Time</h4>
+        <input type="number" id="duration" placeholder="minutes"> Minutes
+        
+        <h4>Kills</h4>
+        <input type="number" id="kills" placeholder="Kills">
+        <br><span class="killsPerHour"></span> Kills/h
+        
+        <h4>approx. SP and XP gained in that time</h4>
+        You've gained approx. <span class="frameXp"></span>% and <span class="frameSp"></span>SP in that time.
+        
+        <h4>approx. hourly SP and XP Gain</h4>
+        <span class="killsPerHour"></span>kills/h<br>
+        <span class="xpPerHour"></span>%/h<br>
+        <span class="spPerHour"></span>SP/h<br>
+        
+        <h4>approx. time remaining to the next Level</h4>
+        <span class="nextLvlTime green"></span><br>
+        That's on <span class="lvlUpTime"></span>
+        
+        
+        <h4>Arrow Usage</h4>
+        <input type="number" id="arrowUse1" placeholder="Arrows start">
+        <input type="number" id="arrowUse2" placeholder="Arrows end">
+        = <span class="arrowsUsed"></span> Arrows used
+        <br><span class="arrowsPerHour"></span> Arrows/h
+        
+        <h4>MP Pot Usage</h4>
+        <input type="number" id="mpPotUse1" placeholder="MP Pots start">
+        <input type="number" id="mpPotUse2" placeholder="MP Pots end">
+        = <span class="mpPotsUsed"></span> MP Pots used
+        <br><span class="mpPotsPerHour"></span> MP Pots/h
+        
+        <h4>HP Pot Usage</h4>
+        <input type="number" id="hpPotUse1" placeholder="HP Pots start">
+        <input type="number" id="hpPotUse2" placeholder="HP Pots end">
+        = <span class="hpPotsUsed"></span> HP Pots used
+        <br><span class="hpPotsPerHour"></span> HP Pots/h
+
+        <h4>Pill Usage</h4>
+        <input type="number" id="pillUse1" placeholder="Pill start">
+        <input type="number" id="pillUse2" placeholder="Pill end">
+        = <span class="pillsUsed"></span> Pills used
+        <br><span class="pillsPerHour"></span> Pills/h
+        
+        <h4>Durability Loss</h4>
+        <input type="number" id="dura1" placeholder="Durability start">
+        <input type="number" id="dura2" placeholder="Durability end">
+        = <span class="duraLoss"></span> Durability lost
+        <br><span class="duraLossPerHour"></span> Durability loss/h
+        
+        
+        <h4>Weapon Durability</h4>
+        <input type="number" id="duraWeap" placeholder="Durability of your Weapon">
+        <br><span class="maxTime">Test</span> max Time on spot
+    </div>
+    
+    <div class="container">
+        <h3>Overview</h3>
+        <p>With a freshly repaired Weapon I can stay approximately<br><span class="maxTime"></span> hours</p>
+        <p>It will take me:
+            <ul>
+                <li><span class="duraArrow"></span> Arrows</li>
+                <li><span class="duraMp"></span> MP Pots</li>
+                <li><span class="duraHp"></span> HP Pots</li>
+            </ul>
+        </p>
+        <p>And you will gain:
+            <ul>
+                <li><span class="xpGained"></span> %</li>
+                <li><span class="spGained"></span> SP</li>
+            </ul>
+        </p>
+        <p>after killing <span class="mobsKilled"></span> Mobs</p>
+    </div>
+    
+    <div class="container">
+        <h3>I want to be afk for...</h3>
+        <input type="number" id="afkTime" placeholder="enter a Number of hours">hours
+        
+        <h4>I will need...</h4>
+        <ul>
+            <li><span class="afkArrow">xx</span> Arrows (<span class="afkArrowStack"></span> Stacks)</li>
+            <li><span class="afkMp">xx</span> MP Pots (<span class="afkMpStack"></span> Stacks)</li>
+            <li><span class="afkHp">xx</span> Hp Pots (<span class="afkHpStack"></span> Stacks)</li>
+            <li><span class="afkPills">xx</span> Pills (<span class="afkPillsStack"></span> Stacks)</li>
+            <li><span class="afkHammer">xx</span> Hammers</li>
+        </ul>
+        
+        <p>You shall gain <span class="afkXp green"></span><span class="green">%</span> and <span class="afkSp yellow"></span><span class="yellow">SP</span></p>
+    </div>
+    
+    <div class="container" style="background-color: aliceblue;">
+        <h3>Settings</h3>
+        <h4>Stack Sizes</h4>
+        MP/HP Pots: <input type="number" id="stackPot" class="sro-setting" placeholder="Pot Stack Size..."><br>
+        Arrows: <input type="number" id="stackArrows" class="sro-setting" placeholder="Arrow Stack Size..."><br>
+        Pills: <input type="number" id="stackPills" class="sro-setting" placeholder="Pills Stack Size...">
+    </div>
+    
+    <div class="container" style="background-color: lightpink;">
+        <button class="eraseLink">Erase all Data ...</button>
+        <div id="security" style="display:none;">
+            <p>This will erase all data and calculations - are you sure?</p>
+            <button id="erase" style="color: red;">Yes, erase all Data</button>
+            <button class="eraseLink">Oops no - never mind!</button></div>
+        </div>
+        <script src='https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js'></script>
+        
+        <script src='js/sroCalc.js'></script>
+    </body>
+    </html>
