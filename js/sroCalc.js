@@ -158,12 +158,14 @@ $(document).ready(function() {
                 $('.nextLvlTime').text("over a week man...")
             }
 
-            Date.prototype.addHours= function(h){
-                this.setHours(this.getHours()+h);
+            Date.prototype.addMinutes= function(m){
+                this.setMinutes(this.getMinutes()+m);
                 return this;
             }
 
-            $('.lvlUpTime').text(new Date().addHours(nextLvlTime))
+            
+
+            $('.lvlUpTime').text(new Date().addMinutes(nextLvlTime*60))
 
             let xpPerHour = killsPerHour * avgMobXp
 
