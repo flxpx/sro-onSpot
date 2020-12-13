@@ -21,8 +21,8 @@
 
         body {
             background-color: darkgrey;
-            margin:20px;
-            font-family: 'Source Code Pro', monospace;
+            /* margin:20px; */
+            /* font-family: 'Source Code Pro', monospace; */
             font-size: 15px;
         }
 
@@ -35,7 +35,7 @@
         }
 
         span {
-            font-weight: 800;
+            font-weight: 600;
         }
 
         .container {
@@ -51,7 +51,7 @@
         input {
             color: grey;
             font-size: 15px;
-            margin-bottom: 5px;
+            /* margin-bottom: 5px; */
             font-family: 'Source Code Pro', monospace;
         }
 
@@ -92,9 +92,9 @@
     </style>
 </head>
 <body>
-    <h1>SRO On Spot Calculator</h1>
     
     <div class="container">
+        <h1>SRO On Spot Calculator</h1>
         <h3>XP/SP Gain per Mob and EXP needed for Level Up</h3>
         <h4>Mob 1</h4>
         <input type="number" id="mobXp1" class="blue" placeholder="XP">
@@ -205,39 +205,48 @@
     </div>
     
     <div class="container">
-        <h3>Overview</h3>
-        <p>With a freshly repaired Weapon I can stay approximately<br><span class="maxTime"></span> hours</p>
-        <p>It will take me:
-            <ul>
-                <li><span class="duraArrow"></span> Arrows(<span class="duraArrowStack"></span> Stacks)</li>
-                <li><span class="duraMp"></span> MP Pots(<span class="duraMpStack"></span> Stacks)</li>
-                <li><span class="duraHp"></span> HP Pots(<span class="duraHpStack"></span> Stacks)</li>
-                <li><span class="duraPills">xx</span> Pills (<span class="duraPillsStack"></span> Stacks)</li>
-            </ul>
-        </p>
-        <p>And I shall gain:
-            <ul>
-                <li><span class="xpGained blue"></span> %</li>
-                <li><span class="spGained yellow"></span> SP</li>
-            </ul>
-        </p>
-        <p>after killing <span class="mobsKilled"></span> Mobs</p>
-    </div>
-    
-    <div class="container">
-        <h3>I want to be afk for...</h3>
-        <input type="number" id="afkTime" placeholder="enter a Number of hours"> hours
+        <div class="row">
+            <div class="col-sm-6">
+
+                <h3>Overview</h3>
+                <p>With a freshly repaired Weapon I can stay approximately<br><span class="maxTime"></span> hours</p>
+                <p>It will take me:
+                    <ul>
+                        <li><span class="duraArrow"></span> Arrows (~<span class="duraArrowStack"></span> Stacks)</li>
+                        <li><span class="duraMp"></span> MP Pots (~<span class="duraMpStack"></span> Stacks)</li>
+                        <li><span class="duraHp"></span> HP Pots (~<span class="duraHpStack"></span> Stacks)</li>
+                        <li><span class="duraPills">xx</span> Pills (~<span class="duraPillsStack"></span> Stacks)</li>
+                    </ul>
+                Costs: <span class="overviewCostGold"></span> Gold
         
-        <h4>I will need...</h4>
-        <ul>
-            <li><span class="afkArrow">xx</span> Arrows (<span class="afkArrowStack"></span> Stacks)</li>
-            <li><span class="afkMp">xx</span> MP Pots (<span class="afkMpStack"></span> Stacks)</li>
-            <li><span class="afkHp">xx</span> Hp Pots (<span class="afkHpStack"></span> Stacks)</li>
-            <li><span class="afkPills">xx</span> Pills (<span class="afkPillsStack"></span> Stacks)</li>
-            <li><span class="afkHammer">xx</span> Hammers</li>
-        </ul>
-        
-        <p>I shall gain <span class="afkXp blue"></span><span class="blue">%</span> and <span class="afkSp yellow"></span><span class="yellow">SP</span></p>
+                </p>
+                <p>And I shall gain:
+                    <ul>
+                        <li><span class="xpGained blue"></span> %</li>
+                        <li><span class="spGained yellow"></span> SP</li>
+                    </ul>
+                </p>
+                <p>after killing <span class="mobsKilled"></span> Mobs</p>
+            </div>
+            <div class="col-sm-6">
+
+                <h3>I want to be afk for...</h3>
+                for <input type="number" id="afkTime" placeholder="enter a Number of hours"> hours! (<a href="javascript:void(0)" id="afkLvlUp">until I leveled up</a></button>)
+                
+                <h4>I will need...</h4>
+                <ul>
+                    <li><span class="afkArrow">xx</span> Arrows (~<span class="afkArrowStack"></span> Stacks)</li>
+                    <li><span class="afkMp">xx</span> MP Pots (~<span class="afkMpStack"></span> Stacks)</li>
+                    <li><span class="afkHp">xx</span> Hp Pots (~<span class="afkHpStack"></span> Stacks)</li>
+                    <li><span class="afkPills">xx</span> Pills (~<span class="afkPillsStack"></span> Stacks)</li>
+                    <li><span class="afkHammer">xx</span> Hammers</li>
+                </ul>
+                
+                Costs: <span class="afkCostGold"></span> Gold, <span class="afkCostSilk"></span> Silk, <span class="afkCostMoney"></span>
+                
+                <p>I shall gain <span class="afkXp blue"></span><span class="blue">%</span> and <span class="afkSp yellow"></span><span class="yellow">SP</span></p>
+            </div>
+        </div>
     </div>
     
     <div class="container" id="settings" style="background-color: aliceblue;">
@@ -259,9 +268,13 @@
         
         Silk: <input type="number" id="silkAmount" class="sro-setting" placeholder=""> Silks for <input type="number" id="silkPrice" class="sro-setting" placeholder=""> € = <span class="moneyForSilk"></span> €/silk<br>
 
-        Repair Hammer: <input type="number" id="hammerPrice" class="sro-setting" placeholder="" value="14"> Silks for <input type="number" id="hammerQuantity" class="sro-setting" value="11"> Hammers (<span class="moneyForHammer"></span>cents/Hammer)<br>
+        Repair Hammer: <input type="number" id="hammerPrice" class="sro-setting" placeholder="" value="14"> Silks for <input type="number" id="hammerQuantity" class="sro-setting" value="11"> Hammers (
+        <span class="silkForHammer"></span>,    
+        <span class="moneyForHammer"></span>)<br>
     
-        Reverse Scroll: <input type="number" id="reversePrice" class="sro-setting" placeholder="" value="14"> Silks for <input type="number" id="reverseQuantity" class="sro-setting" value="11"> Scrolls (<span class="moneyForReverse"></span>cents/Reverse)<br>
+        Reverse Scroll: <input type="number" id="reversePrice" class="sro-setting" placeholder="" value="14"> Silks for <input type="number" id="reverseQuantity" class="sro-setting" value="11"> Scrolls (
+            <span class="silkForReverse"></span>,
+            <span class="moneyForReverse"></span>)
     </div>
     
     <div class="container" style="background-color: lightpink;">

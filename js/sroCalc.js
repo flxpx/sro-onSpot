@@ -9,6 +9,14 @@ $(document).ready(function() {
         return val1 - val2
     }
 
+    // function formatNum(num) {
+    //     let num = num
+    //     if(num >= 1000) {
+    //         num = num.split()
+    //     }
+
+    // }
+
 
     let stackPot;
     let stackPills;
@@ -86,6 +94,18 @@ $(document).ready(function() {
     let silkForHammer;
     let silkForReverse;
     let selectedMethod;
+    let overviewCostGold;
+    let afkCostGold;
+    let afkCostSilk;
+    let afkCostMoney;
+    let hpPrice;
+    let mpPrice;
+    let arrowPrice;
+    let pillPrice;
+    let hpPriceStack;
+    let mpPriceStack;
+    let pillPriceStack;
+    let arrowPriceStack;
     
 
 
@@ -138,7 +158,7 @@ $(document).ready(function() {
 
         
         
-        console.log("Properties updated")
+        // console.log("Properties updated")
     }
 
     function saveSettings() {
@@ -160,7 +180,7 @@ $(document).ready(function() {
         localStorage.setItem('silkAmount', $('#silkAmount').val())
         localStorage.setItem('silkPrice', $('#silkPrice').val())
         
-        console.log("Settings updated")
+        // console.log("Settings updated")
     }
 
     function checkMethod() {
@@ -470,6 +490,30 @@ $(document).ready(function() {
 
             $('.mobsKilled').text(mobsKilled.toFixed(0))
 
+            $('#afkLvlUp').on('click', function(){
+                $('#afkTime').val(Math.ceil(nextLvlTime));
+                sroCalc();
+                localStorage.setItem('afkTime', $('#afkTime').val());
+                
+            })
+
+            hpPrice = $('#hpPrice').val()
+            mpPrice = $('#mpPrice').val()
+            pillPrice = $('#pillPrice').val()
+            arrowPrice = $('#arrowPrice').val()
+
+            hpPriceStack = hpPrice*stackPot
+            mpPriceStack = mpPrice*stackPot
+            pillPriceStack = pillPrice*stackPills
+            arrowPriceStack = arrowPrice*stackArrows
+
+            
+            
+
+            overviewCostGold = (duraHpStack*hpPriceStack) + (duraMpStack*mpPriceStack) + (duraPillsStack*pillPriceStack) + (duraArrowStack*arrowPriceStack)
+            
+            $('.overviewCostGold').text((Math.round(overviewCostGold)).toLocaleString())
+            
             afkTime = $('#afkTime').val()
             
             afkArrow = afkTime*arrowPerHour
@@ -477,10 +521,10 @@ $(document).ready(function() {
             
             afkMp = afkTime*mpPerHour
             afkMpStack = afkMp/stackPot
-
+            
             afkHp = afkTime*hpPerHour
             afkHpStack = afkHp/stackPot
-
+            
             afkPills = afkTime*pillsPerHour
             afkPillsStack = afkPills/stackPills
 
@@ -488,18 +532,27 @@ $(document).ready(function() {
             afkXp = afkTime*xpPerHourPerc
             afkSp = afkTime*spPerHour
 
+            afkCostGold = (afkHpStack*hpPriceStack) + (afkMpStack*mpPriceStack) + (afkPillsStack*pillPriceStack) + (afkArrowStack*arrowPriceStack)
             
-            $('.afkArrow').text(afkArrow)
+            $('.afkCostGold').text((Math.round(afkCostGold)).toLocaleString())
+            
+            
+
+            
+
+            $('.afkCostMoney').text(afkCostMoney)
+            
+            $('.afkArrow').text(afkArrow.toFixed(0))
             $('.afkArrowStack').text(Math.ceil(afkArrowStack))
 
 
-            $('.afkMp').text(afkMp)
+            $('.afkMp').text(afkMp.toFixed(0))
             $('.afkMpStack').text(Math.ceil(afkMpStack))
-            $('.afkHp').text(afkHp)
+            $('.afkHp').text(afkHp.toFixed(0))
             $('.afkHpStack').text(Math.ceil(afkHpStack))
 
             
-            $('.afkPills').text(afkPills)
+            $('.afkPills').text(afkPills.toFixed(0))
             $('.afkPillsStack').text(Math.ceil(afkPillsStack))
 
             $('.afkHammer').text(Math.ceil(afkHammer))
@@ -519,15 +572,33 @@ $(document).ready(function() {
             
             silkForHammer = $('#hammerPrice').val() / $('#hammerQuantity').val()
 
-            $('.moneyForHammer').text(Math.round(silkForHammer* moneyForSilk*100))
+            $('.silkForHammer').text(Math.round(((silkForHammer + Number.EPSILON) * 100) / 100)+" Silk/Hammer")
+
+            $('.moneyForHammer').text(Math.round(silkForHammer* moneyForSilk*100)+" cents/Hammer")
 
             
             silkForReverse = $('#reversePrice').val() / $('#reverseQuantity').val()
 
-            $('.moneyForReverse').text(Math.round(silkForReverse* moneyForSilk*100))
+            $('.silkForReverse').text(Math.round(((silkForReverse + Number.EPSILON) * 100) / 100)+" Silk/Scroll")
+
+            $('.moneyForReverse').text(Math.round(silkForReverse* moneyForSilk*100)+" cents/Scroll")
 
 
+            afkCostSilk = Math.ceil(afkHammer*silkForHammer)
+
+            $('.afkCostSilk').text(afkCostSilk)
+
+            afkCostMoney = afkCostSilk*moneyForSilk
+
+            if(afkCostMoney <= 1) {
+                $('.afkCostMoney').text(Math.round(afkCostMoney*100)+"cents")
+            } else {
+                $('.afkCostMoney').text((Math.round((afkCostMoney + Number.EPSILON) * 100) / 100)+"€")
             }
+            
+            }
+
+            
 
             
 
