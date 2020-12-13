@@ -10,13 +10,88 @@ $(document).ready(function() {
     }
 
 
+    let stackPot;
+    let stackPills;
+    let stackArrows;
+    let avgMobXp;
+    let avgMobXpPerc;
+    let spPerMob;
+    let lvlUpExp;
+    let currentExp;
+    let remainingXP;
+    let remainingKills;
+    let spGain;
+    let duration;
+    let multiplier;
+    let kills;
+    let kills1;
+    let kills2;
+    let exp1;
+    let exp2;
+    let xp1;
+    let xp2;
+    let killsPerHour;
+    let nextLvlTime;
+    let nextLvlTimeSplit;
+    let nextLvlTimeHh;
+    let nextLvlTimeMm;
+    let xpPerHour;
+    let xpPerHourPerc;
+    let spPerHour;
+    let frameXp;
+    let frameXpPerc;
+    let frameSp;
+    let arrowUsed;
+    let arrowPerHour;
+    let mpUsed;
+    let mpPerHour;
+    let hpUsed;
+    let hpPerHour;
+    let pillUsed;
+    let pillsPerHour;
+    let duraUsed;
+    let duraPerHour;
+    let dura;
+    let duraTime;
+    let duraTimeSplit;
+    let duraTimeHh;
+    let duraTimeMm;
+    let duraArrow;
+    let duraArrowStack;
+    let duraMp;
+    let duraMpStack;
+    let duraHp;
+    let duraHpStack;
+    let duraPills;
+    let duraPillsStack;
+    let xpGained;
+    let xpGainedPerc;
+    let spGained;
+    let mobsKilled;
+    let afkTime;
+    let afkArrow;
+    let afkArrowStack;
+    let afkMp;
+    let afkMpStack;
+    let afkHp;
+    let afkHpStack;
+    let afkPills;
+    let afkPillsStack;
+    let afkHammer;
+    let afkXp;
+    let afkSp;
+    let silkAmount;
+    let silkPrice;
+    let moneyForSilk;
+    let silkForHammer;
+    let silkForReverse;
+    let selectedMethod;
+    
+
+
     // Save data
 
-    function saveSettings() {
-        localStorage.setItem('stackPot', $('#stackPot').val())
-        localStorage.setItem('stackPills', $('#stackPills').val())
-        localStorage.setItem('stackArrows', $('#stackArrows').val())
-
+    function saveProperties() {
         localStorage.setItem('mobXp1', $('#mobXp1').val())
         localStorage.setItem('mobXp2', $('#mobXp2').val())
 
@@ -28,6 +103,19 @@ $(document).ready(function() {
 
         localStorage.setItem('duration', $('#duration').val())
         localStorage.setItem('kills', $('#kills').val())
+
+        
+        localStorage.setItem('coins1', $('#coins1').val())
+        localStorage.setItem('coins2', $('#coins2').val())
+        
+        localStorage.setItem('exp1', $('#exp1').val())        
+        localStorage.setItem('exp2', $('#exp2').val())
+
+        localStorage.setItem('xp1', $('#xp1').val())
+        localStorage.setItem('xp2', $('#xp2').val())
+
+        localStorage.setItem('dura1', $('#dura1').val())
+        localStorage.setItem('dura2', $('#dura2').val())
         
         localStorage.setItem('arrowUse1', $('#arrowUse1').val())
         localStorage.setItem('arrowUse2', $('#arrowUse2').val())
@@ -47,7 +135,73 @@ $(document).ready(function() {
         localStorage.setItem('duraWeap', $('#duraWeap').val())
         
         localStorage.setItem('afkTime', $('#afkTime').val())
+
+        
+        
+        console.log("Properties updated")
     }
+
+    function saveSettings() {
+        localStorage.setItem('stackPot', $('#stackPot').val())
+        localStorage.setItem('stackPills', $('#stackPills').val())
+        localStorage.setItem('stackArrows', $('#stackArrows').val())
+
+        localStorage.setItem('hammerPrice', $('#hammerPrice').val())
+        localStorage.setItem('hammerQuantity', $('#hammerQuantity').val())
+        
+        localStorage.setItem('reversePrice', $('#reversePrice').val())
+        localStorage.setItem('reverseQuantity', $('#reverseQuantity').val())
+        
+        localStorage.setItem('mpPrice', $('#mpPrice').val())
+        localStorage.setItem('hpPrice', $('#hpPrice').val())
+        localStorage.setItem('arrowPrice', $('#arrowPrice').val())
+        localStorage.setItem('pillPrice', $('#pillPrice').val())
+        
+        localStorage.setItem('silkAmount', $('#silkAmount').val())
+        localStorage.setItem('silkPrice', $('#silkPrice').val())
+        
+        console.log("Settings updated")
+    }
+
+    function checkMethod() {
+        selectedMethod = $( ".method:checked" ).val()
+        if (selectedMethod === 'manually'){
+            $('.methods .manually').show()
+            $('.methods .manually').siblings().hide()
+        } else if (selectedMethod === 'byCoins'){
+            $('.methods .byCoins').show()
+            $('.methods .byCoins').siblings().hide()
+        } else if (selectedMethod === 'byExp'){
+            $('.methods .byExp').show()
+            $('.methods .byExp').siblings().hide()
+        } else if (selectedMethod === 'byXp'){
+            $('.methods .byXp').show()
+            $('.methods .byXp').siblings().hide()
+        }
+    }
+
+    
+
+    $( ".method" )
+        .on( "click", function() {
+            checkMethod()
+        });
+
+    var radiosMethod = document.getElementsByName("method");
+    var valMethod = localStorage.getItem('method');
+
+        for(var i=0;i<radiosMethod.length;i++){
+          if(radiosMethod[i].value == valMethod){
+            radiosMethod[i].checked = true;
+          }
+        }
+        $('input[name="method"]').on('change', function(){
+          localStorage.setItem('method', $(this).val());
+          
+          checkMethod();
+        });
+
+    checkMethod();
 
     //Erase Data
     $('#erase').on('click', function() {
@@ -62,9 +216,6 @@ $(document).ready(function() {
     })
 
     //load Data
-    $('#stackPot').val(localStorage.getItem('stackPot'))
-    $('#stackArrows').val(localStorage.getItem('stackArrows'))
-    $('#stackPills').val(localStorage.getItem('stackPills'))
 
     $('#mobXp1').val(localStorage.getItem('mobXp1'))
     $('#mobXp2').val(localStorage.getItem('mobXp2'))
@@ -77,6 +228,16 @@ $(document).ready(function() {
     
     $('#duration').val(localStorage.getItem('duration'))
     $('#kills').val(localStorage.getItem('kills'))
+
+    $('#coins1').val(localStorage.getItem('coins1'))
+    $('#coins2').val(localStorage.getItem('coins2'))
+    
+    $('#exp1').val(localStorage.getItem('exp1'))
+    $('#exp2').val(localStorage.getItem('exp2'))
+    
+    $('#xp1').val(localStorage.getItem('xp1'))
+    $('#xp2').val(localStorage.getItem('xp2'))
+    
     
     $('#arrowUse1').val(localStorage.getItem('arrowUse1'))
     $('#arrowUse2').val(localStorage.getItem('arrowUse2'))
@@ -96,54 +257,88 @@ $(document).ready(function() {
     $('#duraWeap').val(localStorage.getItem('duraWeap'))
     
     $('#afkTime').val(localStorage.getItem('afkTime'))
+
+    
+    $('#stackPot').val(localStorage.getItem('stackPot'))
+    $('#stackArrows').val(localStorage.getItem('stackArrows'))
+    $('#stackPills').val(localStorage.getItem('stackPills'))
+
+    $('#hammerPrice').val(localStorage.getItem('hammerPrice'))
+    $('#hammerQuantity').val(localStorage.getItem('hammerQuantity'))
+    $('#reversePrice').val(localStorage.getItem('reversePrice'))
+    $('#reverseQuantity').val(localStorage.getItem('reverseQuantity'))
+    $('#mpPrice').val(localStorage.getItem('mpPrice'))
+    $('#hpPrice').val(localStorage.getItem('hpPrice'))
+    $('#arrowPrice').val(localStorage.getItem('arrowPrice'))
+    $('#pillPrice').val(localStorage.getItem('pillPrice'))
+
+    
+    $('#silkAmount').val(localStorage.getItem('silkAmount'))
+    $('#silkPrice').val(localStorage.getItem('silkPrice'))
+
+
    
 
     function sroCalc() {
-
-        
-            let stackPot = $('#stackPot').val()
-            let stackPills = $('#stackPills').val()
-            let stackArrows = $('#stackArrows').val()
+            stackPot = $('#stackPot').val()
+            stackPills = $('#stackPills').val()
+            stackArrows = $('#stackArrows').val()
             
-
-            let avgMobXp = average(Number($('#mobXp1').val()), Number($('#mobXp2').val()))
+            avgMobXp = average(Number($('#mobXp1').val()), Number($('#mobXp2').val()))
             
             $('.mobXp').text(avgMobXp)
 
-            let spPerMob = average(Number($('#mobSp1').val()), Number($('#mobSp2').val()))/400
+            spPerMob = average(Number($('#mobSp1').val()), Number($('#mobSp2').val()))/400
 
             $('.mobSp').text(spPerMob.toFixed(2))
 
-            let lvlUpExp = $('#levelUpExp').val()
+            lvlUpExp = $('#levelUpExp').val()
 
-            let currentExp = $('#currentExp').val()
+            currentExp = $('#currentExp').val()
 
-            let remainingXP = lvlUpExp - lvlUpExp/100 * currentExp
+            avgMobXpPerc = avgMobXp/lvlUpExp*100 
+
+            $('.avgMobXpPerc').text(avgMobXpPerc.toFixed(2))
+
+            remainingXP = lvlUpExp - lvlUpExp/100 * currentExp
             
-            let remainingKills = remainingXP/avgMobXp
+            remainingKills = remainingXP/avgMobXp
 
             $('.lvlUpKills').text(Math.floor(remainingKills))
 
-            let spGain = spPerMob*remainingKills
+            spGain = spPerMob*remainingKills
 
             $('.spGain').text(Math.floor(spGain))
 
-            let duration = Number($('#duration').val())
+            duration = Number($('#duration').val())
 
-            let multiplier = 60/duration
+            
 
-            let kills = $('#kills').val()
+            if (selectedMethod === 'manually'){
+                kills = $('#kills').val()
+            } else if (selectedMethod === 'byCoins'){
+                kills = $('#coins2').val() - $('#coins1').val()
+            } else if (selectedMethod === 'byExp'){
+                kills = ($('#exp2').val() - $('#exp1').val()) / avgMobXp
+            } else if (selectedMethod === 'byXp'){
+                kills = ((Number($('#xp2').val()) - Number($('#xp1').val())))*(lvlUpExp/100)/avgMobXp
+                console.log(kills)
+            }
 
-            let killsPerHour = kills * multiplier
+            multiplier = 60/duration
+            
+            $('.kills').text(Number(kills).toFixed(0))
+
+            killsPerHour = kills * multiplier
             
             $('.killsPerHour').text(killsPerHour.toFixed(0))
 
-            let nextLvlTime = remainingKills/killsPerHour
+            nextLvlTime = remainingKills/killsPerHour
 
-            let nextLvlTimeSplit = String(nextLvlTime.toFixed(2)).split(".")
+            nextLvlTimeSplit = String(nextLvlTime.toFixed(2)).split(".")
 
-            let nextLvlTimeHh = nextLvlTimeSplit[0]
-            let nextLvlTimeMm = (nextLvlTimeSplit[1]*0.6).toFixed(0)
+            nextLvlTimeHh = nextLvlTimeSplit[0]
+            nextLvlTimeMm = (nextLvlTimeSplit[1]*0.6).toFixed(0)
 
             if(Number(nextLvlTimeHh) <= 0) {
                 $('.nextLvlTime').text(nextLvlTimeMm+"min")
@@ -167,120 +362,131 @@ $(document).ready(function() {
 
             $('.lvlUpTime').text(new Date().addMinutes(nextLvlTime*60))
 
-            let xpPerHour = killsPerHour * avgMobXp
+            xpPerHour = killsPerHour * avgMobXp
 
-            let xpPerHourPerc = xpPerHour / lvlUpExp * 100
+            xpPerHourPerc = xpPerHour / lvlUpExp * 100
 
             $('.xpPerHour').text(xpPerHourPerc.toFixed(2))
 
-            let spPerHour = killsPerHour * spPerMob
+            spPerHour = killsPerHour * spPerMob
 
             $('.spPerHour').text(spPerHour.toFixed(0))
 
-            let frameXp = kills * avgMobXp
+            frameXp = kills * avgMobXp
 
-            let frameXpPerc = frameXp / lvlUpExp * 100
+            frameXpPerc = frameXp / lvlUpExp * 100
 
             $('.frameXp').text(frameXpPerc.toFixed(2))
             
-            let frameSp = kills * spPerMob
+            frameSp = kills * spPerMob
 
             $('.frameSp').text(frameSp.toFixed(0))
 
-            let arrowUsed = consumed($('#arrowUse1').val(), $('#arrowUse2').val())
+            arrowUsed = consumed($('#arrowUse1').val(), $('#arrowUse2').val())
             
             $('.arrowsUsed').text(arrowUsed)
 
-            let arrowPerHour = arrowUsed*multiplier
+            arrowPerHour = arrowUsed*multiplier
             
             $('.arrowsPerHour').text(arrowPerHour.toFixed(0))
 
-            let mpUsed = consumed($('#mpPotUse1').val(), $('#mpPotUse2').val())
+            mpUsed = consumed($('#mpPotUse1').val(), $('#mpPotUse2').val())
 
             $('.mpPotsUsed').text(mpUsed)
 
-            let mpPerHour = mpUsed*multiplier
+            mpPerHour = mpUsed*multiplier
             
             $('.mpPotsPerHour').text(mpPerHour.toFixed(0))
 
-            let hpUsed = consumed($('#hpPotUse1').val(), $('#hpPotUse2').val())
+            hpUsed = consumed($('#hpPotUse1').val(), $('#hpPotUse2').val())
 
             $('.hpPotsUsed').text(hpUsed)
 
-            let hpPerHour = hpUsed*multiplier
+            hpPerHour = hpUsed*multiplier
             
             $('.hpPotsPerHour').text(hpPerHour.toFixed(0))
 
-            let pillUsed = consumed($('#pillUse1').val(), $('#pillUse2').val())
+            pillUsed = consumed($('#pillUse1').val(), $('#pillUse2').val())
 
             $('.pillsUsed').text(pillUsed)
 
-            let pillsPerHour = pillUsed*multiplier
+            pillsPerHour = pillUsed*multiplier
 
             $('.pillsPerHour').text(pillsPerHour.toFixed(0))
 
-            let duraUsed = consumed($('#dura1').val(), $('#dura2').val())
+            duraUsed = consumed($('#dura1').val(), $('#dura2').val())
 
             $('.duraLoss').text(duraUsed.toFixed(0))
             
-            let duraPerHour = duraUsed*multiplier
+            duraPerHour = duraUsed*multiplier
 
             $('.duraLossPerHour').text(duraPerHour.toFixed(0))
 
-            let dura = $('#duraWeap').val()
+            dura = $('#duraWeap').val()
 
-            let duraTime = dura/duraPerHour
+            duraTime = dura/duraPerHour
 
-            let duraTimeSplit = String(duraTime.toFixed(2)).split(".")
+            duraTimeSplit = String(duraTime.toFixed(2)).split(".")
 
-            let duraTimeHh = duraTimeSplit[0]
-            let duraTimeMm = (duraTimeSplit[1]*0.6).toFixed(0)
+            duraTimeHh = duraTimeSplit[0]
+            duraTimeMm = (duraTimeSplit[1]*0.6).toFixed(0)
 
             $('.maxTime').text(duraTimeHh+"h and "+duraTimeMm+"min")
 
-            let duraArrow = arrowPerHour*duraTime
+            duraArrow = arrowPerHour*duraTime
+            duraArrowStack = duraArrow/stackArrows
 
             $('.duraArrow').text(duraArrow.toFixed(0))
+            $('.duraArrowStack').text(Math.ceil(duraArrowStack))
 
-            let duraMp = mpPerHour*duraTime
+            duraMp = mpPerHour*duraTime
+            duraMpStack = duraMp/stackPot
 
             $('.duraMp').text(duraMp.toFixed(0))
+            $('.duraMpStack').text(Math.ceil(duraMpStack))
 
-            let duraHp = hpPerHour*duraTime
+            duraHp = hpPerHour*duraTime
+            duraHpStack = duraHp/stackPot
 
             $('.duraHp').text(duraHp.toFixed(0))
+            $('.duraHpStack').text(Math.ceil(duraHpStack))
 
-            let xpGained = killsPerHour*avgMobXp*duraTime
+            duraPills = duraTime*pillsPerHour
+            duraPillsStack = duraPills/stackPills
+            $('.duraPills').text(duraPills.toFixed(0))
+            $('.duraPillsStack').text(Math.ceil(duraPillsStack))
 
-            let xpGainedPerc = xpGained / lvlUpExp *100
+            xpGained = killsPerHour*avgMobXp*duraTime
+
+            xpGainedPerc = xpGained / lvlUpExp *100
 
             $('.xpGained').text(xpGainedPerc.toFixed(2))
 
-            let spGained = killsPerHour*spPerMob*duraTime
+            spGained = killsPerHour*spPerMob*duraTime
 
             $('.spGained').text(spGained.toFixed(0))
 
-            let mobsKilled = killsPerHour*duraTime
+            mobsKilled = killsPerHour*duraTime
 
             $('.mobsKilled').text(mobsKilled.toFixed(0))
 
-            let afkTime = $('#afkTime').val()
-            let afkArrow = afkTime*arrowPerHour
-            let afkArrowStack = afkArrow/stackArrows
+            afkTime = $('#afkTime').val()
             
-            let afkMp = afkTime*mpPerHour
-            let afkMpStack = afkMp/stackPot
+            afkArrow = afkTime*arrowPerHour
+            afkArrowStack = afkArrow/stackArrows
+            
+            afkMp = afkTime*mpPerHour
+            afkMpStack = afkMp/stackPot
 
-            let afkHp = afkTime*hpPerHour
-            let afkHpStack = afkHp/stackPot
+            afkHp = afkTime*hpPerHour
+            afkHpStack = afkHp/stackPot
 
-            // <li><span class="afkPills">xx</span> Pills (<span class="afkPillsStack"></span> Stack)</li>
-            let afkPills = afkTime*pillsPerHour
-            let afkPillsStack = afkPills/stackPills
+            afkPills = afkTime*pillsPerHour
+            afkPillsStack = afkPills/stackPills
 
-            let afkHammer = afkTime/duraTime
-            let afkXp = afkTime*xpPerHourPerc
-            let afkSp = afkTime*spPerHour
+            afkHammer = afkTime/duraTime
+            afkXp = afkTime*xpPerHourPerc
+            afkSp = afkTime*spPerHour
 
             
             $('.afkArrow').text(afkArrow)
@@ -301,6 +507,25 @@ $(document).ready(function() {
             $('.afkXp').text(afkXp.toFixed(2))
             $('.afkSp').text(afkSp.toFixed(0))
 
+            silkAmount = $('#silkAmount').val()
+            silkPrice = $('#silkPrice').val()
+            
+            moneyForSilk = silkPrice/silkAmount
+
+            
+
+            $('.moneyForSilk').text(Math.round((moneyForSilk + Number.EPSILON) * 100) / 100)
+            
+            
+            silkForHammer = $('#hammerPrice').val() / $('#hammerQuantity').val()
+
+            $('.moneyForHammer').text(Math.round(silkForHammer* moneyForSilk*100))
+
+            
+            silkForReverse = $('#reversePrice').val() / $('#reverseQuantity').val()
+
+            $('.moneyForReverse').text(Math.round(silkForReverse* moneyForSilk*100))
+
 
             }
 
@@ -316,13 +541,19 @@ $(document).ready(function() {
         $('input')
             .on('keyup', function(){
                 runAll();
-                saveSettings();
+                saveProperties();
             })
             .on('click', function(){
                 runAll();
-                saveSettings();
+                saveProperties();
             })
 
+        $('#settings input').on('keyup', function(){
+            saveSettings();
+        })
+        .on('click', function(){
+            saveSettings();
+        })
 
 
     
