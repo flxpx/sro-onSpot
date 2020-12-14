@@ -297,7 +297,21 @@ $(document).ready(function() {
     $('#silkPrice').val(localStorage.getItem('silkPrice'))
 
 
-   
+    function localizeNum(num, pos, change){
+        
+        if(change === 'floor'){
+            return Math.floor(Number(num).toFixed(pos)).toLocaleString()
+        } else if(change === 'ceil') {
+            return Math.ceil(Number(num)).toLocaleString()
+        } else if(change === 'round') {
+            return Math.round(Number(num)).toLocaleString()
+        }
+        else {
+            return Number(num.toFixed(pos)).toLocaleString()
+        }
+            
+        
+    } 
 
     function sroCalc() {
             stackPot = $('#stackPot').val()
@@ -306,11 +320,11 @@ $(document).ready(function() {
             
             avgMobXp = average(Number($('#mobXp1').val()), Number($('#mobXp2').val()))
             
-            $('.mobXp').text(avgMobXp)
+            $('.mobXp').text(avgMobXp.toLocaleString())
 
             spPerMob = average(Number($('#mobSp1').val()), Number($('#mobSp2').val()))/400
 
-            $('.mobSp').text(spPerMob.toFixed(2))
+            $('.mobSp').text(localizeNum(spPerMob, 2))
 
             lvlUpExp = $('#levelUpExp').val()
 
@@ -318,17 +332,17 @@ $(document).ready(function() {
 
             avgMobXpPerc = avgMobXp/lvlUpExp*100 
 
-            $('.avgMobXpPerc').text(avgMobXpPerc.toFixed(2))
+            $('.avgMobXpPerc').text(localizeNum(avgMobXpPerc, 2))
 
             remainingXP = lvlUpExp - lvlUpExp/100 * currentExp
             
             remainingKills = remainingXP/avgMobXp
 
-            $('.lvlUpKills').text(Math.floor(remainingKills))
+            $('.lvlUpKills').text(localizeNum(remainingKills, 0, 'round'))
 
             spGain = spPerMob*remainingKills
 
-            $('.spGain').text(Math.floor(spGain))
+            $('.spGain').text(Math.floor(spGain).toLocaleString())
 
             duration = Number($('#duration').val())
 
@@ -347,11 +361,11 @@ $(document).ready(function() {
 
             multiplier = 60/duration
             
-            $('.kills').text(Number(kills).toFixed(0))
+            $('.kills').text(localizeNum(kills,0, 'round'))
 
             killsPerHour = kills * multiplier
             
-            $('.killsPerHour').text(killsPerHour.toFixed(0))
+            $('.killsPerHour').text(localizeNum(killsPerHour,0,'round'))
 
             nextLvlTime = remainingKills/killsPerHour
 
@@ -386,61 +400,62 @@ $(document).ready(function() {
 
             xpPerHourPerc = xpPerHour / lvlUpExp * 100
 
-            $('.xpPerHour').text(xpPerHourPerc.toFixed(2))
+            $('.xpPerHour').text(localizeNum(xpPerHourPerc,2))
 
             spPerHour = killsPerHour * spPerMob
 
-            $('.spPerHour').text(spPerHour.toFixed(0))
+            $('.spPerHour').text(localizeNum(spPerHour,0))
 
             frameXp = kills * avgMobXp
 
             frameXpPerc = frameXp / lvlUpExp * 100
 
-            $('.frameXp').text(frameXpPerc.toFixed(2))
+            $('.frameXp').text(localizeNum(frameXpPerc,2))
             
             frameSp = kills * spPerMob
 
-            $('.frameSp').text(frameSp.toFixed(0))
+            $('.frameSp').text(localizeNum(frameSp, 0, 'round'))
 
             arrowUsed = consumed($('#arrowUse1').val(), $('#arrowUse2').val())
             
-            $('.arrowsUsed').text(arrowUsed)
+            $('.arrowsUsed').text(localizeNum(arrowUsed))
 
             arrowPerHour = arrowUsed*multiplier
             
-            $('.arrowsPerHour').text(arrowPerHour.toFixed(0))
+            // $('.arrowsPerHour').text(Number(arrowPerHour.toFixed(0)).toLocaleString())
+            $('.arrowsPerHour').text(localizeNum(arrowPerHour,0,'round'))
 
             mpUsed = consumed($('#mpPotUse1').val(), $('#mpPotUse2').val())
 
-            $('.mpPotsUsed').text(mpUsed)
+            $('.mpPotsUsed').text(localizeNum(mpUsed))
 
             mpPerHour = mpUsed*multiplier
             
-            $('.mpPotsPerHour').text(mpPerHour.toFixed(0))
+            $('.mpPotsPerHour').text(localizeNum(mpPerHour,0))
 
             hpUsed = consumed($('#hpPotUse1').val(), $('#hpPotUse2').val())
 
-            $('.hpPotsUsed').text(hpUsed)
+            $('.hpPotsUsed').text(localizeNum(hpUsed))
 
             hpPerHour = hpUsed*multiplier
             
-            $('.hpPotsPerHour').text(hpPerHour.toFixed(0))
+            $('.hpPotsPerHour').text(localizeNum(hpPerHour,0))
 
             pillUsed = consumed($('#pillUse1').val(), $('#pillUse2').val())
 
-            $('.pillsUsed').text(pillUsed)
+            $('.pillsUsed').text(localizeNum(pillUsed))
 
             pillsPerHour = pillUsed*multiplier
 
-            $('.pillsPerHour').text(pillsPerHour.toFixed(0))
+            $('.pillsPerHour').text(localizeNum(pillsPerHour,0))
 
             duraUsed = consumed($('#dura1').val(), $('#dura2').val())
 
-            $('.duraLoss').text(duraUsed.toFixed(0))
+            $('.duraLoss').text(localizeNum(duraUsed,0))
             
             duraPerHour = duraUsed*multiplier
 
-            $('.duraLossPerHour').text(duraPerHour.toFixed(0))
+            $('.duraLossPerHour').text(localizeNum(duraPerHour,0))
 
             dura = $('#duraWeap').val()
 
@@ -456,39 +471,39 @@ $(document).ready(function() {
             duraArrow = arrowPerHour*duraTime
             duraArrowStack = duraArrow/stackArrows
 
-            $('.duraArrow').text(duraArrow.toFixed(0))
+            $('.duraArrow').text(localizeNum(duraArrow,0))
             $('.duraArrowStack').text(Math.ceil(duraArrowStack))
 
             duraMp = mpPerHour*duraTime
             duraMpStack = duraMp/stackPot
 
-            $('.duraMp').text(duraMp.toFixed(0))
+            $('.duraMp').text(localizeNum(duraMp,0))
             $('.duraMpStack').text(Math.ceil(duraMpStack))
 
             duraHp = hpPerHour*duraTime
             duraHpStack = duraHp/stackPot
 
-            $('.duraHp').text(duraHp.toFixed(0))
+            $('.duraHp').text(localizeNum(duraHp,0))
             $('.duraHpStack').text(Math.ceil(duraHpStack))
 
             duraPills = duraTime*pillsPerHour
             duraPillsStack = duraPills/stackPills
-            $('.duraPills').text(duraPills.toFixed(0))
+            $('.duraPills').text(localizeNum(duraPills,0))
             $('.duraPillsStack').text(Math.ceil(duraPillsStack))
 
             xpGained = killsPerHour*avgMobXp*duraTime
 
             xpGainedPerc = xpGained / lvlUpExp *100
 
-            $('.xpGained').text(xpGainedPerc.toFixed(2))
+            $('.xpGained').text(localizeNum(xpGainedPerc,2))
 
             spGained = killsPerHour*spPerMob*duraTime
 
-            $('.spGained').text(spGained.toFixed(0))
+            $('.spGained').text(localizeNum(spGained,0))
 
             mobsKilled = killsPerHour*duraTime
 
-            $('.mobsKilled').text(mobsKilled.toFixed(0))
+            $('.mobsKilled').text(localizeNum(mobsKilled,0))
 
             $('#afkLvlUp').on('click', function(){
                 $('#afkTime').val(Math.ceil(nextLvlTime));
@@ -512,7 +527,7 @@ $(document).ready(function() {
 
             overviewCostGold = (duraHpStack*hpPriceStack) + (duraMpStack*mpPriceStack) + (duraPillsStack*pillPriceStack) + (duraArrowStack*arrowPriceStack)
             
-            $('.overviewCostGold').text((Math.round(overviewCostGold)).toLocaleString())
+            $('.overviewCostGold').text(localizeNum(overviewCostGold,0,'round'))
             
             afkTime = $('#afkTime').val()
             
@@ -534,7 +549,7 @@ $(document).ready(function() {
 
             afkCostGold = (afkHpStack*hpPriceStack) + (afkMpStack*mpPriceStack) + (afkPillsStack*pillPriceStack) + (afkArrowStack*arrowPriceStack)
             
-            $('.afkCostGold').text((Math.round(afkCostGold)).toLocaleString())
+            $('.afkCostGold').text(localizeNum(afkCostGold,0,'round'))
             
             
 
@@ -542,23 +557,23 @@ $(document).ready(function() {
 
             $('.afkCostMoney').text(afkCostMoney)
             
-            $('.afkArrow').text(afkArrow.toFixed(0))
-            $('.afkArrowStack').text(Math.ceil(afkArrowStack))
+            $('.afkArrow').text(localizeNum(afkArrow,0))
+            $('.afkArrowStack').text(localizeNum(afkArrowStack,'','ceil'))
 
 
-            $('.afkMp').text(afkMp.toFixed(0))
-            $('.afkMpStack').text(Math.ceil(afkMpStack))
-            $('.afkHp').text(afkHp.toFixed(0))
-            $('.afkHpStack').text(Math.ceil(afkHpStack))
+            $('.afkMp').text(localizeNum(afkMp))
+            $('.afkMpStack').text(localizeNum(afkMpStack,'','ceil'))
+            $('.afkHp').text(localizeNum(afkHp))
+            $('.afkHpStack').text(localizeNum(afkHpStack,'','ceil'))
 
             
-            $('.afkPills').text(afkPills.toFixed(0))
-            $('.afkPillsStack').text(Math.ceil(afkPillsStack))
+            $('.afkPills').text(localizeNum(afkPills))
+            $('.afkPillsStack').text(localizeNum(afkPillsStack,'','ceil'))
 
-            $('.afkHammer').text(Math.ceil(afkHammer))
+            $('.afkHammer').text(localizeNum(afkHammer,'','ceil'))
             
-            $('.afkXp').text(afkXp.toFixed(2))
-            $('.afkSp').text(afkSp.toFixed(0))
+            $('.afkXp').text(localizeNum(afkXp,2))
+            $('.afkSp').text(localizeNum(afkSp,0))
 
             silkAmount = $('#silkAmount').val()
             silkPrice = $('#silkPrice').val()
